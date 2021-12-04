@@ -1,0 +1,53 @@
+{
+  "name": "#8",
+  "description": "Baldeez #8",
+  "image": "8.png",
+  "symbol": "BALD",
+  "seller_fee_basis_points": 500,
+  "external_url": "https://baldeez.io/",
+  "properties": {
+    "files": [
+      {
+        "uri": "8.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "EvAbwD1H6KZ5tWrAqQREddQUyYVbewqcDnXbHPD4TMm6",
+        "share": 100
+      }
+    ]
+  },
+  "collection": {
+    "name": "#8",
+    "family": "Baldeez"
+  },
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Purple"
+    },
+    {
+      "trait_type": "Body",
+      "value": "Alien"
+    },
+    {
+      "trait_type": "Earrings",
+      "value": "Fully Pierced"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Toothpick"
+    },
+    {
+      "trait_type": "Hat",
+      "value": "Propellor"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "Aviators"
+    }
+  ]
+}

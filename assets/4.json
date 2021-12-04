@@ -1,0 +1,57 @@
+{
+  "name": "#4",
+  "description": "Baldeez #4",
+  "image": "4.png",
+  "symbol": "BALD",
+  "seller_fee_basis_points": 500,
+  "external_url": "https://baldeez.io/",
+  "properties": {
+    "files": [
+      {
+        "uri": "4.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "EvAbwD1H6KZ5tWrAqQREddQUyYVbewqcDnXbHPD4TMm6",
+        "share": 100
+      }
+    ]
+  },
+  "collection": {
+    "name": "#4",
+    "family": "Baldeez"
+  },
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Purple"
+    },
+    {
+      "trait_type": "Body",
+      "value": "Tan"
+    },
+    {
+      "trait_type": "Shirt",
+      "value": "HODL T"
+    },
+    {
+      "trait_type": "Earrings",
+      "value": "Diamond Stud"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Toothpick"
+    },
+    {
+      "trait_type": "Hat",
+      "value": "Backwards Cap"
+    },
+    {
+      "trait_type": "Necklace",
+      "value": "Diamond ETH Chain"
+    }
+  ]
+}

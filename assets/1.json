@@ -1,0 +1,53 @@
+{
+  "name": "#1",
+  "description": "Baldeez #1",
+  "image": "1.png",
+  "symbol": "BALD",
+  "seller_fee_basis_points": 500,
+  "external_url": "https://baldeez.io/",
+  "properties": {
+    "files": [
+      {
+        "uri": "1.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "EvAbwD1H6KZ5tWrAqQREddQUyYVbewqcDnXbHPD4TMm6",
+        "share": 100
+      }
+    ]
+  },
+  "collection": {
+    "name": "#1",
+    "family": "Baldeez"
+  },
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Yellow Pink"
+    },
+    {
+      "trait_type": "Body",
+      "value": "Black"
+    },
+    {
+      "trait_type": "Shirt",
+      "value": "Baldeez T"
+    },
+    {
+      "trait_type": "Earrings",
+      "value": "Diamond Stud"
+    },
+    {
+      "trait_type": "Hat",
+      "value": "Workout Band"
+    },
+    {
+      "trait_type": "Necklace",
+      "value": "Diamond ETH Chain"
+    }
+  ]
+}

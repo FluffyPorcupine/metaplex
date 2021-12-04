@@ -1,0 +1,49 @@
+{
+  "name": "#2",
+  "description": "Baldeez #2",
+  "image": "2.png",
+  "symbol": "BALD",
+  "seller_fee_basis_points": 500,
+  "external_url": "https://baldeez.io/",
+  "properties": {
+    "files": [
+      {
+        "uri": "2.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "EvAbwD1H6KZ5tWrAqQREddQUyYVbewqcDnXbHPD4TMm6",
+        "share": 100
+      }
+    ]
+  },
+  "collection": {
+    "name": "#2",
+    "family": "Baldeez"
+  },
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Orange White"
+    },
+    {
+      "trait_type": "Body",
+      "value": "Tan"
+    },
+    {
+      "trait_type": "Shirt",
+      "value": "Red Hoodie"
+    },
+    {
+      "trait_type": "Earrings",
+      "value": "Cross"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Bandana"
+    }
+  ]
+}

@@ -635,6 +635,14 @@ programCommand('create_candy_machine')
     '-r, --rpc-url <string>',
     'custom rpc url since this is a heavy command',
   )
+  .option(
+    '--presale-enabled',
+    'Users can purchase a set amount of items before the go-live data. Also requires --presale-items-available to be set'
+  )
+  .option(
+    '--presale-items-available <number>',
+    'The number of items to allow for presale'
+  )
   .action(async (directory, cmd) => {
     const {
       keypair,
@@ -645,9 +653,13 @@ programCommand('create_candy_machine')
       splTokenAccount,
       solTreasuryAccount,
       rpcUrl,
+      presaleEnabled,
+      presaleItemsAvailable
     } = cmd.opts();
 
     let parsedPrice = parsePrice(price);
+    const parsedPresaleEnabled = presaleEnabled == null ? null : presaleEnabled;
+    const parsedPresaleItemsAvailable = presaleItemsAvailable ? parseInt(presaleItemsAvailable) : null;
     const cacheContent = loadCache(cacheName, env);
 
     const walletKeyPair = loadWalletKey(keypair);
@@ -718,27 +730,32 @@ programCommand('create_candy_machine')
       config,
       cacheContent.program.uuid,
     );
+    const initializeCandyMachine: any = {
+      accounts: {
+        candyMachine,
+        wallet,
+        config: config,
+        authority: walletKeyPair.publicKey,
+        payer: walletKeyPair.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+      },
+      signers: [],
+      remainingAccounts,
+    };
+    const candyMachineData: any = {
+      uuid: cacheContent.program.uuid,
+      price: new anchor.BN(parsedPrice),
+      itemsAvailable: new anchor.BN(Object.keys(cacheContent.items).length),
+      goLiveDate: null,
+      presaleEnabled: parsedPresaleEnabled == null ? null : parsedPresaleEnabled,
+      presaleIItemsAvailable: parsedPresaleItemsAvailable ? new anchor.BN(parsedPresaleItemsAvailable) : null,
+    };
+    console.info('rpc', initializeCandyMachine, candyMachineData);
     await anchorProgram.rpc.initializeCandyMachine(
       bump,
-      {
-        uuid: cacheContent.program.uuid,
-        price: new anchor.BN(parsedPrice),
-        itemsAvailable: new anchor.BN(Object.keys(cacheContent.items).length),
-        goLiveDate: null,
-      },
-      {
-        accounts: {
-          candyMachine,
-          wallet,
-          config: config,
-          authority: walletKeyPair.publicKey,
-          payer: walletKeyPair.publicKey,
-          systemProgram: anchor.web3.SystemProgram.programId,
-          rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-        },
-        signers: [],
-        remainingAccounts,
-      },
+      candyMachineData,
+      initializeCandyMachine,
     );
     cacheContent.candyMachineAddress = candyMachine.toBase58();
     saveCache(cacheName, env, cacheContent);
@@ -758,24 +775,36 @@ programCommand('update_candy_machine')
     'custom rpc url since this is a heavy command',
   )
   .option('--new-authority <Pubkey>', 'New Authority. Base58-encoded')
+  .option(
+    '--presale-enabled',
+    'Users can purchase a set amount of items before the go-live data. Also requires --presale-items-available to be set'
+  )
+  .option(
+    '--presale-items-available <number>',
+    'The number of items to allow for presale'
+  )
   .action(async (directory, cmd) => {
-    const { keypair, env, date, rpcUrl, price, newAuthority, cacheName } =
+    const { keypair, env, date, rpcUrl, price, newAuthority, presaleEnabled, presaleItemsAvailable, cacheName } =
       cmd.opts();
     const cacheContent = loadCache(cacheName, env);
 
     const secondsSinceEpoch = date ? parseDate(date) : null;
     const lamports = price ? parsePrice(price) : null;
     const newAuthorityKey = newAuthority ? new PublicKey(newAuthority) : null;
+    const parsedPresaleEnabled = presaleEnabled == null ? null : presaleEnabled;
+    const parsedPresaleItemsAvailable = presaleItemsAvailable ? parseInt(presaleItemsAvailable) : null;
 
     const walletKeyPair = loadWalletKey(keypair);
     const anchorProgram = await loadCandyProgram(walletKeyPair, env, rpcUrl);
 
     const candyMachine = new PublicKey(cacheContent.candyMachineAddress);
 
-    if (lamports || secondsSinceEpoch) {
+    if (lamports || secondsSinceEpoch || parsedPresaleEnabled || parsedPresaleItemsAvailable) {
       const tx = await anchorProgram.rpc.updateCandyMachine(
         lamports ? new anchor.BN(lamports) : null,
         secondsSinceEpoch ? new anchor.BN(secondsSinceEpoch) : null,
+        parsedPresaleEnabled == null ? null : parsedPresaleEnabled,
+        parsedPresaleItemsAvailable ? new anchor.BN(parsedPresaleItemsAvailable) : null,
         {
           accounts: {
             candyMachine,

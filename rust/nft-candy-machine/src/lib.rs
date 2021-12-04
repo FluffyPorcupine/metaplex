@@ -17,7 +17,7 @@ use {
     spl_token::state::Mint,
     std::cell::Ref,
 };
-anchor_lang::declare_id!("cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ");
+anchor_lang::declare_id!("67YJ8eh44hUQbb7xkrUwFUeho8vTgi7x4NNCEa65mPZ9");
 
 const PREFIX: &str = "candy_machine";
 #[program]
@@ -33,15 +33,28 @@ pub mod nft_candy_machine {
         let candy_machine = &mut ctx.accounts.candy_machine;
         let config = &ctx.accounts.config;
         let clock = &ctx.accounts.clock;
+        let mut allow_presale = false;
+
+        if let Some(presale) = candy_machine.data.presale_enabled {
+            allow_presale = presale;
+        }
+
+        if let Some(presale_count) = candy_machine.data.presale_items_available {
+            allow_presale = allow_presale && presale_count < candy_machine.items_redeemed;
+        } else {
+            allow_presale = false;
+        }
 
         match candy_machine.data.go_live_date {
             None => {
-                if *ctx.accounts.payer.key != candy_machine.authority {
+                if *ctx.accounts.payer.key != candy_machine.authority
+                    && !allow_presale {
                     return Err(ErrorCode::CandyMachineNotLiveYet.into());
                 }
             }
             Some(val) => {
-                if clock.unix_timestamp < val {
+                if clock.unix_timestamp < val
+                    && !allow_presale {
                     if *ctx.accounts.payer.key != candy_machine.authority {
                         return Err(ErrorCode::CandyMachineNotLiveYet.into());
                     }
@@ -218,6 +231,8 @@ pub mod nft_candy_machine {
         ctx: Context<UpdateCandyMachine>,
         price: Option<u64>,
         go_live_date: Option<i64>,
+        presale_enabled: Option<bool>,
+        presale_items_available: Option<u64>,
     ) -> ProgramResult {
         let candy_machine = &mut ctx.accounts.candy_machine;
 
@@ -229,6 +244,17 @@ pub mod nft_candy_machine {
             msg!("Go live date changed to {}", go_l);
             candy_machine.data.go_live_date = Some(go_l)
         }
+
+        if let Some(ps) = presale_enabled {
+            msg!("Presale enabled changed from {:?} to {}", candy_machine.data.presale_enabled, ps);
+            candy_machine.data.presale_enabled = Some(ps)
+        }
+
+        if let Some(pia) = presale_items_available {
+            msg!("Presale items available changed from {:?} to {}", candy_machine.data.presale_items_available, pia);
+            candy_machine.data.presale_items_available = Some(pia)
+        }
+
         Ok(())
     }
 
@@ -549,6 +575,8 @@ pub struct CandyMachineData {
     pub price: u64,
     pub items_available: u64,
     pub go_live_date: Option<i64>,
+    pub presale_enabled: Option<bool>,
+    pub presale_items_available: Option<u64>,
 }
 
 pub const CONFIG_ARRAY_START: usize = 32 + // authority
