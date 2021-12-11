@@ -1,0 +1,49 @@
+{
+  "name": "#3",
+  "description": "Baldeez #3",
+  "image": "3.png",
+  "symbol": "BALD",
+  "seller_fee_basis_points": 500,
+  "external_url": "https://baldeez.io/",
+  "properties": {
+    "files": [
+      {
+        "uri": "3.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "EvAbwD1H6KZ5tWrAqQREddQUyYVbewqcDnXbHPD4TMm6",
+        "share": 100
+      }
+    ]
+  },
+  "collection": {
+    "name": "#3",
+    "family": "Baldeez"
+  },
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Moss"
+    },
+    {
+      "trait_type": "Body",
+      "value": "Black"
+    },
+    {
+      "trait_type": "Shirt",
+      "value": "Bulls Jersey"
+    },
+    {
+      "trait_type": "Earrings",
+      "value": "Diamond Stud"
+    },
+    {
+      "trait_type": "Hat",
+      "value": "Propellor"
+    }
+  ]
+}
